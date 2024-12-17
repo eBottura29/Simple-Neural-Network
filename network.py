@@ -1,4 +1,4 @@
-import math, random, time
+import math, random
 
 
 class Neuron:

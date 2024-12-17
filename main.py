@@ -2,7 +2,6 @@ from network import *
 import random
 
 
-# Custom function for points above or below lines
 def train(network, amount_batches, per_batch, path, cost_path, learning_rate=0.01):
     batch_iteration = 1
     costs = []  # List to store average costs for each batch
@@ -17,28 +16,27 @@ def train(network, amount_batches, per_batch, path, cost_path, learning_rate=0.0
             answer = inputs[1] > inputs[0] * inputs[2] + inputs[3]
             expected_outputs = [1 if answer else 0, 0 if answer else 1]
 
-            # Forward pass: Compute the outputs
+            # Forward pass
             outputs = network.compute(inputs)
 
-            # Calculate the cost (Mean Squared Error)
+            # Calculate the cost
             cost = sum([(outputs[0] - expected_outputs[0]) ** 2, (outputs[1] - expected_outputs[1]) ** 2])
             average_cost += cost
 
-            # Backpropagation starts here
-            # Step 1: Calculate output layer deltas (error * derivative of activation function)
+            # Calculate output layer deltas (error * derivative of activation function)
             deltas = []
             for i, neuron in enumerate(network.layers[-1].neurons):
                 error = outputs[i] - expected_outputs[i]
                 delta = error * outputs[i] * (1 - outputs[i])  # Derivative of sigmoid: y * (1 - y)
                 deltas.append(delta)
 
-            # Step 2: Update weights and biases for output layer
+            # Update weights and biases for output layer
             for i, neuron in enumerate(network.layers[-1].neurons):
                 for j in range(len(neuron.weights)):
                     neuron.weights[j] -= learning_rate * deltas[i] * network.layers[-2].outputs[j]
                 neuron.bias -= learning_rate * deltas[i]
 
-            # Step 3: Backpropagate to hidden layers
+            # Backpropagate to hidden layers
             for l in range(len(network.layers) - 2, 0, -1):  # Start from second-to-last layer
                 layer = network.layers[l]
                 next_layer = network.layers[l + 1]
@@ -78,7 +76,7 @@ def train(network, amount_batches, per_batch, path, cost_path, learning_rate=0.0
             f.write(f"{i},{cost}\n")
 
 
-def run(network, path):
+def manual_test(network, path):
     # Load weights and biases from file
     with open(path, "r") as f:
         data = f.readlines()
@@ -114,7 +112,7 @@ def run(network, path):
         print("The point is BELOW the line.")
 
 
-def run_test(network, path, size_of_test):
+def automated_test(network, path, size_of_test):
     # Load weights and biases from file
     with open(path, "r") as f:
         data = f.readlines()
@@ -160,4 +158,4 @@ def run_test(network, path, size_of_test):
 if __name__ == "__main__":
     network = Network([4, 64, 64, 64, 2])
     train(network, 1000, 100, "training_data/points.td", "training_data/points.csv")
-    run_test(network, "training_data/points.td", 25000)
+    automated_test(network, "training_data/points.td", 25000)

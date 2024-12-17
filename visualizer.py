@@ -1,3 +1,6 @@
+# Had to learn matplotlib just for this project
+# Ur welcome (wasnt even that difficult)
+
 import matplotlib.pyplot as plt
 import csv
 import numpy as np
@@ -14,7 +17,7 @@ with open("training_data/points.csv", "r") as f:
         costs.append(float(row[1]))
 
 # Fit a higher-order polynomial (e.g., cubic) to the cost data
-degree = 3  # Degree of the polynomial for the trend line
+degree = 10  # Degree of the polynomial for the trend line
 trend_coeffs = np.polyfit(batches, costs, degree)
 trend_line = np.poly1d(trend_coeffs)
 
