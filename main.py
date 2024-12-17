@@ -158,4 +158,5 @@ def automated_test(network, path, size_of_test):
 if __name__ == "__main__":
     network = Network([4, 64, 64, 64, 2])
     train(network, 1000, 100, "training_data/points.td", "training_data/points.csv")
+    manual_test(network, "training_data/points.td")
     automated_test(network, "training_data/points.td", 25000)
