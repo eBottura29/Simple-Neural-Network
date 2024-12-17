@@ -26,7 +26,7 @@ trend_costs = trend_line(batches)
 
 # Plot the cost evolution
 plt.plot(batches, costs, label="Cost", color="blue")
-plt.plot(batches, trend_costs, label="Trend Line (Cubic Fit)", color="red", linestyle="--")
+plt.plot(batches, trend_costs, label="Trend Line", color="red", linestyle="--")
 
 # Add labels, title, and legend
 plt.xlabel("Batch")
